@@ -4,14 +4,47 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <h2>Welcome to Ionic!</h2>
-  <p>
-    This starter project comes with simple tabs-based layout for apps
-    that are going to primarily use a Tabbed UI.
-  </p>
-  <p>
-    Take a look at the <code>src/pages/</code> directory to add or change tabs,
-    update any existing page or create new pages.
-  </p>
+<ion-content class="card-background-page" padding>
+
+  <ion-card *ngFor="let person of customer">
+    <img src="../../assets/imgs/nin-live.png" />
+    <ion-card-content>
+      <ion-card-title>
+        <span>{{person.name}}  ({{person.mobile}}) <ion-icon style="color:#33cd5f;" name="call" (click)="_fncallNumber(person.mobile)"></ion-icon></span>
+      </ion-card-title>
+      <p>
+        <b>Address:</b> {{person.address}}
+      </p>
+      <p>
+        <b>Taken Date:</b> {{person.takendate}}
+      </p>
+      <p>
+        <b>Due Date:</b> {{person.duedate}}
+      </p>
+      <p>
+        <b>Advanced paid:</b> {{person.advance}}
+      </p>
+      <p>
+        <b>Total ammount:</b> {{person.total}}
+      </p>
+      <p>
+        <b>Remaining ammount:</b> {{person.total - person.advance}}
+      </p>
+
+    </ion-card-content>
+    <ion-row no-padding>
+      <ion-col>
+        <button ion-button clear small color="danger" icon-start>
+          <ion-icon name='clock'></ion-icon>
+        </button>
+      </ion-col>
+      <ion-col text-center>
+        <button ion-button clear small color="danger" icon-start (click)="_fnpresentActionSheet(person)">
+          <ion-icon name='more' ></ion-icon>
+          Details
+        </button>
+      </ion-col>
+
+    </ion-row>
+  </ion-card>
 </ion-content>
