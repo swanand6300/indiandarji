@@ -16,18 +16,12 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 // for AngularFireAuth
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { CallNumber } from '@ionic-native/call-number';
-export const firebase  = {
-  apiKey: "",
-  authDomain: "",
-  databaseURL: "",
-  projectId: "",
-  storageBucket: "",
-  messagingSenderId: ""
-};
+import { environment } from '../config/config';
+
 @NgModule({
   declarations: [MyApp, AboutPage, ContactPage, HomePage, TabsPage],
   imports: [BrowserModule, IonicModule.forRoot(MyApp),
-    AngularFireModule.initializeApp(firebase),
+    AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AngularFireAuthModule 
   ],
