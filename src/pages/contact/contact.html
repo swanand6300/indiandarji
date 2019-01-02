@@ -6,12 +6,36 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content>
-  <ion-list>
-    <ion-list-header>Follow us on Twitter</ion-list-header>
+<ion-content padding>
+  <form (ngSubmit)="_fncreateUser(customerForm)" #customerForm="ngForm">
     <ion-item>
-      <ion-icon name="ionic" item-start></ion-icon>
-      @ionicframework
+      <ion-label>Name</ion-label>
+      <ion-input type="text" [(ngModel)]="user.name" name="name"></ion-input>
     </ion-item>
-  </ion-list>
+    <ion-item>
+      <ion-label>Address</ion-label>
+      <ion-textarea [(ngModel)]="user.address" name="address"></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-label>Advance</ion-label>
+      <ion-input type="text" [(ngModel)]="user.advance" name="advance"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Due Date</ion-label>
+      <ion-input type="text" [(ngModel)]="user.duedate" name="duedate"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Mobile no</ion-label>
+      <ion-input type="number" [(ngModel)]="user.mobile" name="mobile"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Taken date</ion-label>
+      <ion-input type="number" [(ngModel)]="user.takendate" name="takendate"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Total ammount</ion-label>
+      <ion-input type="number" [(ngModel)]="user.total" name="total"></ion-input>
+    </ion-item>
+    <button ion-button type="submit" block>Add user</button>
+  </form>
 </ion-content>

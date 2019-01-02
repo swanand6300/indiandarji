@@ -17,6 +17,7 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { CallNumber } from '@ionic-native/call-number';
 import { environment } from '../config/config';
+import { UserProvider } from '../providers/user/user';
 
 @NgModule({
   declarations: [MyApp, AboutPage, ContactPage, HomePage, TabsPage],
@@ -31,7 +32,8 @@ import { environment } from '../config/config';
     StatusBar,
     SplashScreen,
     CallNumber,
-    { provide: ErrorHandler, useClass: IonicErrorHandler }
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
+    UserProvider
   ]
 })
 export class AppModule {
