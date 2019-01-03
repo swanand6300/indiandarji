@@ -5,6 +5,25 @@
 </ion-header>
 
 <ion-content class="card-background-page" padding>
+  <ion-searchbar [(ngModel)]="searchTerm" [showCancelButton]="shouldShowCancel" (ionInput)="onInput(searchTerm)" (ionCancel)="onCancel($event)">
+  </ion-searchbar>
+  <ion-card *ngIf="nopendingOrders">
+    <ion-card-header color="primary">
+      No pending orders
+    </ion-card-header>
+    <ion-card-content>
+      Yahooo! Seems like you dont have any pending work for now!
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="!filterDataLength">
+      <ion-card-header color="primary">
+        No data found
+      </ion-card-header>
+      <ion-card-content>
+        Seems like the name your searching is not found in our database! Please try with new name.
+      </ion-card-content>
+    </ion-card>
 
   <ion-card *ngFor="let person of customer">
     <img src="../../assets/imgs/nin-live.png" />
@@ -16,13 +35,13 @@
         <b>Address:</b> {{person.address}}
       </p>
       <p>
-        <b>Taken Date:</b> {{person.takendate}}
+        <b>Taken Date:</b> {{person.takendate | date:'dd MMMM yyyy HH:mm'}}
       </p>
       <p>
-        <b>Due Date:</b> {{person.duedate}}
+        <b>Due Date:</b> {{person.duedate | date:'dd MMMM yyyy'}}
       </p>
       <p>
-        <b>Advanced paid:</b> {{person.advance}}
+        <b>Paid ammount:</b> {{person.advance}}
       </p>
       <p>
         <b>Total ammount:</b> {{person.total}}
@@ -33,14 +52,19 @@
 
     </ion-card-content>
     <ion-row no-padding>
-      <ion-col>
-        <button ion-button clear small color="danger" icon-start>
+      <ion-col *ngIf="!person.isOrderCompleted">
+        <button ion-button clear small [color]="person.priority" icon-start>
           <ion-icon name='clock'></ion-icon>
+        </button>
+      </ion-col>
+      <ion-col *ngIf="person.isOrderCompleted">
+        <button ion-button clear small color="primary" icon-start>
+          <ion-icon [name]="person.totalAmmountPaid ? 'done-all' : 'cash'"></ion-icon>
         </button>
       </ion-col>
       <ion-col text-center>
         <button ion-button clear small color="danger" icon-start (click)="_fnpresentActionSheet(person)">
-          <ion-icon name='more' ></ion-icon>
+          <ion-icon name='more'></ion-icon>
           Details
         </button>
       </ion-col>

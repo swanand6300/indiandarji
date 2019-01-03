@@ -28,9 +28,26 @@ export class UserProvider {
       .list("/darji")
       .snapshotChanges();
   }
+  getUserDetails(userID){
+    // return this.db.list('/darji/'+userID);
+    return this.db.database.ref('/darji/').child(userID).orderByValue();
+  
+  }
   addUser(userdetails){
     this.db.list("/darji").push(userdetails).then((res) => {
       this._fnRecordFetchToast('User added successfully!')
     })
+  }
+  completeOrder(user){   
+    this.db
+      .object("/darji/" + user.key)
+      .update({isOrderCompleted: true});
+      this._fnRecordFetchToast('Order is completed!')
+  }
+  totalAmmountPaid(user){   
+    this.db
+      .object("/darji/" + user.key)
+      .update({advance:user.total,totalAmmountPaid: true});
+      this._fnRecordFetchToast('Total ammount is paid by '+user.name)
   }
 }

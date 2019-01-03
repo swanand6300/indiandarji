@@ -9,31 +9,39 @@
 <ion-content padding>
   <form (ngSubmit)="_fncreateUser(customerForm)" #customerForm="ngForm">
     <ion-item>
-      <ion-label>Name</ion-label>
+      <ion-label floating>Name</ion-label>
       <ion-input type="text" [(ngModel)]="user.name" name="name"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label>Address</ion-label>
+      <ion-label floating>Address</ion-label>
       <ion-textarea [(ngModel)]="user.address" name="address"></ion-textarea>
     </ion-item>
     <ion-item>
-      <ion-label>Advance</ion-label>
-      <ion-input type="text" [(ngModel)]="user.advance" name="advance"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label>Due Date</ion-label>
-      <ion-input type="text" [(ngModel)]="user.duedate" name="duedate"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label>Mobile no</ion-label>
+      <ion-label floating>Mobile no</ion-label>
       <ion-input type="number" [(ngModel)]="user.mobile" name="mobile"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label>Taken date</ion-label>
-      <ion-input type="number" [(ngModel)]="user.takendate" name="takendate"></ion-input>
+      <ion-label floating>Taken date</ion-label>
+      <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="user.takendate" name="takendate"></ion-datetime>
     </ion-item>
     <ion-item>
-      <ion-label>Total ammount</ion-label>
+      <ion-label floating>Due date</ion-label>
+      <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="user.duedate" name="duedate"></ion-datetime>
+    </ion-item>
+    <ion-item>
+        <ion-label floating>Priority</ion-label>
+        <ion-select [(ngModel)]="user.priority" name="priority">
+          <ion-option value="high">High</ion-option>
+          <ion-option value="medium">Medium</ion-option>
+          <ion-option value="low">Low</ion-option>
+        </ion-select>
+      </ion-item>
+    <ion-item>
+      <ion-label floating>Advance</ion-label>
+      <ion-input type="number" [(ngModel)]="user.advance" name="advance"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Total ammount</ion-label>
       <ion-input type="number" [(ngModel)]="user.total" name="total"></ion-input>
     </ion-item>
     <button ion-button type="submit" block>Add user</button>

@@ -5,6 +5,7 @@ import { LoadingController } from "ionic-angular";
 import { CallNumber } from "@ionic-native/call-number";
 import { ActionSheetController } from "ionic-angular";
 import { UserProvider } from "../../providers/user/user";
+import { AlertController } from 'ionic-angular';
 @Component({
   selector: "page-home",
   templateUrl: "home.html"
@@ -12,26 +13,35 @@ import { UserProvider } from "../../providers/user/user";
 export class HomePage {
   customer;
   itemsRef;
+  searchTerm;
+  nopendingOrders: boolean = false;
   loader = this.loadingCtrl.create({
     content: "Please wait..."
   });
   callNo;
+  filterDataLength = 1;
+  filterData = [];
   constructor(
     public userdetails: UserProvider,
     public navCtrl: NavController,
     public toastCtrl: ToastController,
     public loadingCtrl: LoadingController,
     private callNumber: CallNumber,
-    public actionSheetCtrl: ActionSheetController
+    public actionSheetCtrl: ActionSheetController,
+    private alertCtrl: AlertController
   ) {
     this.loader.present();
+    this.initializeItems();
+    this.loader.dismiss();
+    this._fnRecordFetchToast("Dashboard updated!");
+  }
+  initializeItems(){
     this.itemsRef = this.userdetails.getAllUser();
-    console.log(this.itemsRef)
     this.itemsRef.subscribe(items => {
       this.customer = [items][0];
       this.customer = this.customer.map(action =>  ({ key: action.key, ...action.payload.val() }));
-      this.loader.dismiss();
-      this._fnRecordFetchToast("Dashboard updated!");
+      this.customer.length ? this.nopendingOrders = false : this.nopendingOrders = true; 
+      this.filterData = this.customer;
     });
   }
   _fncallNumber(number) {
@@ -44,9 +54,34 @@ export class HomePage {
   _fnRecordFetchToast(val) {
     const toast = this.toastCtrl.create({
       message: val,
-      duration: 3000
+      duration: 3000,
     });
     toast.present();
+  }
+  _fnpresentConfirm(msg, obj) {
+    let alert = this.alertCtrl.create({
+      title: 'Payment alert',
+      message: msg,
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+            this._fnRecordFetchToast('Order is completed but payment is pending')
+            this.userdetails.completeOrder(obj);
+          }
+        },
+        {
+          text: 'Paid',
+          handler: () => {
+            console.log('Buy clicked');
+            this.userdetails.totalAmmountPaid(obj);
+          }
+        }
+      ]
+    });
+    alert.present();
   }
   _fnpresentActionSheet(person) {
     var key = person.key;
@@ -54,27 +89,49 @@ export class HomePage {
       title: "Modify customer details",
       buttons: [
         {
-          text: "Destructive",
-          role: "destructive",
+          text: "Mark as complete",
           handler: () => {
-            this._fnRecordFetchToast("Destructive " + key);
+            console.log("Check condition")
+            console.log((person.advance < person.total));
+            if(person.advance < person.total){
+              var remAmmount = person.total - person.advance;
+              (person.totalAmmountPaid)? this.userdetails.completeOrder(person) : this._fnpresentConfirm('Total ammount is not paid by '+person.name+ '. Please take '+remAmmount+ ' to complete the order! Please click \'paid\' if ammount is paid', person);
+            } else{
+              this.userdetails.completeOrder(person);
+            }
           }
         },
         {
-          text: "Archive",
+          text: "Total ammount is paid",
           handler: () => {
-            this._fnRecordFetchToast("Archive " + key);
+            this.userdetails.totalAmmountPaid(person);
+          }
+        },
+        {
+          text: "Update order details",
+          handler: () => {
+            this._fnRecordFetchToast("Open modal " + key);
           }
         },
         {
           text: "Cancel",
           role: "cancel",
           handler: () => {
-            this._fnRecordFetchToast("Cancel " + key);
+            // this._fnRecordFetchToast("Cancel " + key);
           }
         }
       ]
     });
     actionSheet.present();
   }
+  
+  onInput(searchTerm){
+    this.customer = this.filterData.filter((location) => {
+      if(location.name.toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1){ 
+        return true;
+      }
+    });
+    this.filterDataLength = this.customer.length;
+  }
+
 }
