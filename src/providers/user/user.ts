@@ -19,7 +19,7 @@ export class UserProvider {
   _fnRecordFetchToast(val) {
     const toast = this.toastCtrl.create({
       message: val,
-      duration: 3000
+      duration: 1000
     });
     toast.present();
   }
@@ -49,5 +49,10 @@ export class UserProvider {
       .object("/darji/" + user.key)
       .update({advance:user.total,totalAmmountPaid: true});
       this._fnRecordFetchToast('Total ammount is paid by '+user.name)
+  }
+  deleteOrder(user){
+    this.db.list('/darji/'+user.key).remove().then((res)=>{
+      this._fnRecordFetchToast('Order deleted successfully!')
+    });
   }
 }

@@ -32,8 +32,7 @@ export class HomePage {
   ) {
     this.loader.present();
     this.initializeItems();
-    this.loader.dismiss();
-    this._fnRecordFetchToast("Dashboard updated!");
+    
   }
   initializeItems(){
     this.itemsRef = this.userdetails.getAllUser();
@@ -42,6 +41,8 @@ export class HomePage {
       this.customer = this.customer.map(action =>  ({ key: action.key, ...action.payload.val() }));
       this.customer.length ? this.nopendingOrders = false : this.nopendingOrders = true; 
       this.filterData = this.customer;
+      this.loader.dismiss();
+    this._fnRecordFetchToast("Dashboard updated!");
     });
   }
   _fncallNumber(number) {
@@ -102,15 +103,22 @@ export class HomePage {
           }
         },
         {
-          text: "Total ammount is paid",
+          text: "Mark as paid",
           handler: () => {
             this.userdetails.totalAmmountPaid(person);
           }
         },
         {
-          text: "Update order details",
+          text: "Update",
           handler: () => {
             this._fnRecordFetchToast("Open modal " + key);
+          }
+        },
+        {
+          text: "Delete",
+          role: 'destructive',
+          handler: () => {
+            this.userdetails.deleteOrder(person);
           }
         },
         {

@@ -10,20 +10,22 @@ import { HomePage } from '../home/home';
 })
 export class ContactPage {
   user = {} as UserDetails;
-  
   constructor(public navCtrl: NavController, public db: AngularFireDatabase, public userService: UserProvider) {
     this.user.takendate = new Date().toISOString();
     this.user.duedate = new Date().toISOString();
     this.user.isOrderCompleted = false;
     this.user.totalAmmountPaid = false;
+    this.user.segments = 'shirts';
   }
 
   _fncreateUser(customerDetails) {
-    this.userService.addUser(this.user);
-    customerDetails.resetForm();
-    this.user.takendate = new Date().toISOString();
-    this.user.duedate = new Date().toISOString();
-    this.navCtrl.push(HomePage);
+    if(customerDetails.valid){
+      this.userService.addUser(this.user);
+      customerDetails.resetForm();
+      this.user.takendate = new Date().toISOString();
+      this.user.duedate = new Date().toISOString();
+      this.navCtrl.push(HomePage);
+    }
   }
 }
 

@@ -44,7 +44,9 @@ $colors: (
   low: #32db64
 );
 
-
+.toast-ios .toast-wrapper{
+  width: 80%;
+}
 // App iOS Variables
 // --------------------------------------------------
 // iOS only Sass variables can go here

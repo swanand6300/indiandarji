@@ -1,49 +1,156 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Contact
+      New Order
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <form (ngSubmit)="_fncreateUser(customerForm)" #customerForm="ngForm">
+  <form (ngSubmit)="_fncreateUser(customerForm)" #customerForm="ngForm" validation>
     <ion-item>
       <ion-label floating>Name</ion-label>
-      <ion-input type="text" [(ngModel)]="user.name" name="name"></ion-input>
+      <ion-input type="text" [(ngModel)]="user.name" name="name" required #name="ngModel" [ngClass]="{ 'is-invalid': name.invalid }"></ion-input>
     </ion-item>
+    <p *ngIf="customerForm.submitted && name.invalid" class="invalid-feedback" style="color: red; padding: 0px 1.6rem;font-weight: 700">
+      First Name is required
+    </p>
     <ion-item>
       <ion-label floating>Address</ion-label>
-      <ion-textarea [(ngModel)]="user.address" name="address"></ion-textarea>
+      <ion-textarea [(ngModel)]="user.address" name="address" #address="ngModel"></ion-textarea>
     </ion-item>
     <ion-item>
       <ion-label floating>Mobile no</ion-label>
-      <ion-input type="number" [(ngModel)]="user.mobile" name="mobile"></ion-input>
+      <ion-input type="number" [(ngModel)]="user.mobile" name="mobile" #mobile="ngModel"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label floating>Taken date</ion-label>
-      <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="user.takendate" name="takendate"></ion-datetime>
+      <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="user.takendate" name="takendate" #takendate="ngModel"></ion-datetime>
     </ion-item>
     <ion-item>
       <ion-label floating>Due date</ion-label>
-      <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="user.duedate" name="duedate"></ion-datetime>
+      <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="user.duedate" name="duedate" #duedate="ngModel"></ion-datetime>
     </ion-item>
     <ion-item>
-        <ion-label floating>Priority</ion-label>
-        <ion-select [(ngModel)]="user.priority" name="priority">
-          <ion-option value="high">High</ion-option>
-          <ion-option value="medium">Medium</ion-option>
-          <ion-option value="low">Low</ion-option>
-        </ion-select>
-      </ion-item>
+      <ion-label floating>Priority</ion-label>
+      <ion-select [(ngModel)]="user.priority" name="priority" #priority="ngModel">
+        <ion-option value="high">High</ion-option>
+        <ion-option value="medium">Medium</ion-option>
+        <ion-option value="low">Low</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-toolbar no-border-top>
+      <ion-segment [(ngModel)]="user.segments" name="segments">
+        <ion-segment-button value="shirts">
+          Shirts
+        </ion-segment-button>
+        <ion-segment-button value="pants">
+          Pants
+        </ion-segment-button>
+      </ion-segment>
+    </ion-toolbar>
+    <div [ngSwitch]="user.segments" style="height:100%">
+      <ion-card *ngSwitchCase="'shirts'">
+        <!-- <ion-card> -->
+        <ion-card-header>
+          Shirts detail
+        </ion-card-header>
+        <ion-card-content>
+          <!-- Add card content here! -->
+          <ion-item>
+            <ion-label floating>Height</ion-label>
+            <ion-input type="number" [(ngModel)]="user.sHeight" name="sHeight" #sHeight="ngModel"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label floating>Chest</ion-label>
+            <ion-input type="number" [(ngModel)]="user.sChest" name="sChest" #sChest="ngModel"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label floating>Front</ion-label>
+            <ion-input type="number" [(ngModel)]="user.sFront" name="sFront" #sFront="ngModel"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label floating>Collar</ion-label>
+            <ion-input type="number" [(ngModel)]="user.sCollar" name="sCollar" #sCollar="ngModel"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label floating>Shoulder</ion-label>
+            <ion-input type="number" [(ngModel)]="user.sShoulder" name="sShoulder" #sShoulder="ngModel"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label floating>Bahi</ion-label>
+            <ion-input type="number" [(ngModel)]="user.sSleeves" name="sSleeves" #sSleeves="ngModel"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label floating>Cuff</ion-label>
+            <ion-input type="number" [(ngModel)]="user.sCuff" name="sCuff" #sCuff="ngModel"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label floating>Shirt type</ion-label>
+            <ion-select [(ngModel)]="user.sType" name="sType" #sType="ngModel">
+              <ion-option value="manela">Manela</ion-option>
+              <ion-option value="open">Open</ion-option>
+              <ion-option value="apple">Apple</ion-option>
+              <ion-option value="cut">Cut</ion-option>
+              <ion-option value="nehru">Nehru</ion-option>
+              <ion-option value="safari">Safari</ion-option>
+            </ion-select>
+          </ion-item>
+        </ion-card-content>
+      </ion-card>
+      <!-- Pants Section -->
+      <ion-card *ngSwitchCase="'pants'">
+        <!-- <ion-card> -->
+        <ion-card-header>
+          Pants detail
+        </ion-card-header>
+        <ion-card-content>
+          <!-- Add card content here! -->
+            <ion-item>
+              <ion-label floating>Height</ion-label>
+              <ion-input type="number" [(ngModel)]="user.pHeight" name="pHeight" #pHeight="ngModel"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label floating>Kambar</ion-label>
+              <ion-input type="number" [(ngModel)]="user.pWaist" name="pWaist" #pWaist="ngModel"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label floating>Seat</ion-label>
+              <ion-input type="number" [(ngModel)]="user.pSeat" name="pSeat" #pSeat="ngModel"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label floating>Mandi</ion-label>
+              <ion-input type="number" [(ngModel)]="user.pMandi" name="pMandi" #pMandi="ngModel"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label floating>Ghudya</ion-label>
+              <ion-input type="number" [(ngModel)]="user.pGhudya" name="pGhudya" #pGhudya="ngModel"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label floating>Bottom</ion-label>
+              <ion-input type="number" [(ngModel)]="user.pBottom" name="pBottom" #pBottom="ngModel"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label floating>Shirt type</ion-label>
+              <ion-select [(ngModel)]="user.pType" name="pType" #pType="ngModel">
+                <ion-option value="twoPleat">2 Pleat</ion-option>
+                <ion-option value="crossPocket">Cross pocket</ion-option>
+              </ion-select>
+            </ion-item>
+        </ion-card-content>
+      </ion-card>
+    </div>
     <ion-item>
       <ion-label floating>Advance</ion-label>
-      <ion-input type="number" [(ngModel)]="user.advance" name="advance"></ion-input>
+      <ion-input type="number" [(ngModel)]="user.advance" name="advance" #advance="ngModel"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label floating>Total ammount</ion-label>
-      <ion-input type="number" [(ngModel)]="user.total" name="total"></ion-input>
+      <ion-input type="number" [(ngModel)]="user.total" name="total" #total="ngModel" required></ion-input>
     </ion-item>
+    <p *ngIf="customerForm.submitted && total.invalid" class="invalid-feedback">
+      Taotal ammount is required
+    </p>
     <button ion-button type="submit" block>Add user</button>
   </form>
 </ion-content>
